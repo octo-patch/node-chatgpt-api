@@ -9,6 +9,7 @@ import inquirer from 'inquirer';
 import inquirerAutocompletePrompt from 'inquirer-autocomplete-prompt';
 import ChatGPTClient from '../src/ChatGPTClient.js';
 import BingAIClient from '../src/BingAIClient.js';
+import MiniMaxClient from '../src/MiniMaxClient.js';
 
 const arg = process.argv.find(_arg => _arg.startsWith('--settings'));
 const path = arg?.split('=')[1] ?? './settings.js';
@@ -85,6 +86,13 @@ switch (clientToUse) {
             cache: settings.cacheOptions,
         });
         break;
+    case 'minimax':
+        client = new MiniMaxClient(
+            settings.minimaxApiKey || settings.miniMaxClient?.minimaxApiKey,
+            settings.miniMaxClient || {},
+            settings.cacheOptions,
+        );
+        break;
     default:
         client = new ChatGPTClient(
             settings.openaiApiKey || settings.chatGptClient.openaiApiKey,
@@ -156,6 +164,9 @@ async function onMessage(message) {
     switch (clientToUse) {
         case 'bing':
             aiLabel = 'Bing';
+            break;
+        case 'minimax':
+            aiLabel = settings.miniMaxClient?.chatGptLabel || 'MiniMax';
             break;
         default:
             aiLabel = settings.chatGptClient?.chatGptLabel || 'ChatGPT';

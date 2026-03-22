@@ -56,6 +56,32 @@ export default {
         // (Optional) Set to true to enable `console.debug()` logging
         debug: false,
     },
+    // Options for the MiniMax client
+    miniMaxClient: {
+        // Your MiniMax API key (for `MiniMaxClient`)
+        minimaxApiKey: process.env.MINIMAX_API_KEY || '',
+        // (Optional) Parameters as described in https://platform.minimaxi.com/document/ChatCompletion%20v2
+        modelOptions: {
+            // You can override the model name and any other parameters here.
+            // Available models: 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed', 'MiniMax-M2.5', 'MiniMax-M2.5-highspeed'
+            // The default model is `MiniMax-M2.7`.
+            model: 'MiniMax-M2.7',
+            // MiniMax supports temperature in the range [0, 1].
+            // temperature: 0.8,
+            // Set max_tokens here to override the default max_tokens of 4096 for the completion.
+            // max_tokens: 4096,
+        },
+        // (Optional) MiniMax-M2.7 supports up to 1M context tokens.
+        // maxContextTokens: 1000000,
+        // (Optional) Set custom instructions instead of the default.
+        // promptPrefix: 'You are a helpful AI assistant powered by MiniMax...',
+        // (Optional) Set a custom name for the AI
+        // chatGptLabel: 'MiniMax',
+        // A proxy string like "http://<ip>:<port>"
+        proxy: '',
+        // (Optional) Set to true to enable `console.debug()` logging
+        debug: false,
+    },
     chatGptBrowserClient: {
         // (Optional) Support for a reverse proxy for the conversation endpoint (private API server).
         // Warning: This will expose your access token to a third party. Consider the risks before using this.
@@ -75,7 +101,7 @@ export default {
         host: process.env.API_HOST || 'localhost',
         // (Optional) Set to true to enable `console.debug()` logging
         debug: false,
-        // (Optional) Possible options: "chatgpt", "chatgpt-browser", "bing". (Default: "chatgpt")
+        // (Optional) Possible options: "chatgpt", "chatgpt-browser", "bing", "minimax". (Default: "chatgpt")
         clientToUse: 'chatgpt',
         // (Optional) Generate titles for each conversation for clients that support it (only ChatGPTClient for now).
         // This will be returned as a `title` property in the first response of the conversation.
@@ -85,7 +111,7 @@ export default {
         perMessageClientOptionsWhitelist: {
             // The ability to switch clients using `clientOptions.clientToUse` will be disabled if `validClientsToUse` is not set.
             // To allow switching clients per message, you must set `validClientsToUse` to a non-empty array.
-            validClientsToUse: ['bing', 'chatgpt', 'chatgpt-browser'], // values from possible `clientToUse` options above
+            validClientsToUse: ['bing', 'chatgpt', 'chatgpt-browser', 'minimax'], // values from possible `clientToUse` options above
             // The Object key, e.g. "chatgpt", is a value from `validClientsToUse`.
             // If not set, ALL options will be ALLOWED to be changed. For example, `bing` is not defined in `perMessageClientOptionsWhitelist` above,
             // so all options for `bingAiClient` will be allowed to be changed.
@@ -104,7 +130,7 @@ export default {
     },
     // Options for the CLI app
     cliOptions: {
-        // (Optional) Possible options: "chatgpt", "bing".
+        // (Optional) Possible options: "chatgpt", "bing", "minimax".
         // clientToUse: 'bing',
     },
 };

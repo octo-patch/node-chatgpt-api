@@ -8,6 +8,7 @@ import { KeyvFile } from 'keyv-file';
 import ChatGPTClient from '../src/ChatGPTClient.js';
 import ChatGPTBrowserClient from '../src/ChatGPTBrowserClient.js';
 import BingAIClient from '../src/BingAIClient.js';
+import MiniMaxClient from '../src/MiniMaxClient.js';
 
 const arg = process.argv.find(_arg => _arg.startsWith('--settings'));
 const path = arg?.split('=')[1] ?? './settings.js';
@@ -140,7 +141,8 @@ server.post('/conversation', async (request, reply) => {
     } else if (settings.apiOptions?.debug) {
         console.debug(error);
     }
-    const message = error?.data?.message || error?.message || `There was an error communicating with ${clientToUse === 'bing' ? 'Bing' : 'ChatGPT'}.`;
+    const clientLabels = { bing: 'Bing', minimax: 'MiniMax', chatgpt: 'ChatGPT', 'chatgpt-browser': 'ChatGPT' };
+        const message = error?.data?.message || error?.message || `There was an error communicating with ${clientLabels[clientToUseForMessage] || 'the AI'}.`;
     if (body.stream === true) {
         reply.sse({
             id: '',
@@ -183,6 +185,12 @@ function getClient(clientToUseForMessage) {
             return new ChatGPTClient(
                 settings.openaiApiKey || settings.chatGptClient.openaiApiKey,
                 settings.chatGptClient,
+                settings.cacheOptions,
+            );
+        case 'minimax':
+            return new MiniMaxClient(
+                settings.minimaxApiKey || settings.miniMaxClient?.minimaxApiKey,
+                settings.miniMaxClient || {},
                 settings.cacheOptions,
             );
         default:

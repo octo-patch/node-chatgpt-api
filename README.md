@@ -86,7 +86,7 @@ Discord user @pig#8932 has found a working `text-chat-davinci-002` model, `text-
 
 # ChatGPT API
 
-> A client implementation for ChatGPT and Bing AI. Available as a Node.js module, REST API server, and CLI app.
+> A client implementation for ChatGPT, Bing AI, and MiniMax. Available as a Node.js module, REST API server, and CLI app.
 
 [![NPM](https://img.shields.io/npm/v/@waylaidwanderer/chatgpt-api.svg)](https://www.npmjs.com/package/@waylaidwanderer/chatgpt-api)
 [![npm](https://img.shields.io/npm/dt/@waylaidwanderer/chatgpt-api)](https://www.npmjs.com/package/@waylaidwanderer/chatgpt-api)
@@ -120,6 +120,9 @@ Discord user @pig#8932 has found a working `text-chat-davinci-002` model, `text-
     - In essence, this allows you to make a chatbot with any personality you want.
     - This is currently only configurable on a global level, but I plan to add support for per-conversation customization.
   - Retains support for models like `text-davinci-003`
+- `MiniMaxClient`: support for [MiniMax](https://www.minimaxi.com/)'s models (`MiniMax-M2.7`, `MiniMax-M2.7-highspeed`, etc.) via MiniMax's OpenAI-compatible API.
+  - Extends `ChatGPTClient` with MiniMax-specific defaults (API endpoint, temperature clamping, 1M context window).
+  - Supports the same conversation management, streaming, and prompt customization features as `ChatGPTClient`.
 - `BingAIClient`: support for Bing's version of ChatGPT, powered by GPT-4.
   - Includes a built-in jailbreak you can activate which enables unlimited chat messages per conversation, unlimited messages per day, and brings Sydney back. 😊
 - `ChatGPTBrowserClient`: support for the official ChatGPT website, using a reverse proxy server for a Cloudflare bypass.
@@ -131,7 +134,8 @@ Discord user @pig#8932 has found a working `text-chat-davinci-002` model, `text-
 - Node.js >= 16.0.0
 - npm
 - Docker (optional, for API server)
-- [OpenAI API key](https://platform.openai.com/account/api-keys)
+- [OpenAI API key](https://platform.openai.com/account/api-keys) (for `ChatGPTClient`)
+- [MiniMax API key](https://platform.minimaxi.com/) (for `MiniMaxClient`)
 
 ## Usage
 
@@ -149,6 +153,11 @@ See [`demos/use-bing-client.js`](demos/use-bing-client.js).
 <summary><strong>ChatGPTClient</strong></summary>
 
 See [`demos/use-client.js`](demos/use-client.js).
+</details>
+<details open>
+<summary><strong>MiniMaxClient</strong></summary>
+
+See [`demos/use-minimax-client.js`](demos/use-minimax-client.js).
 </details>
 <details open>
 <summary><strong>ChatGPTBrowserClient</strong></summary>
@@ -223,6 +232,17 @@ module.exports = {
         // (Optional) Set to true to enable `console.debug()` logging
         debug: false,
     },
+    // Options for the MiniMax client
+    miniMaxClient: {
+        // Your MiniMax API key (for `MiniMaxClient`)
+        minimaxApiKey: process.env.MINIMAX_API_KEY || '',
+        modelOptions: {
+            // Available models: 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed', 'MiniMax-M2.5', 'MiniMax-M2.5-highspeed'
+            model: 'MiniMax-M2.7',
+        },
+        proxy: '',
+        debug: false,
+    },
     chatGptBrowserClient: {
         // (Optional) Support for a reverse proxy for the conversation endpoint (private API server).
         // Warning: This will expose your access token to a third party. Consider the risks before using this.
@@ -242,7 +262,7 @@ module.exports = {
         host: process.env.API_HOST || 'localhost',
         // (Optional) Set to true to enable `console.debug()` logging
         debug: false,
-        // (Optional) Possible options: "chatgpt", "chatgpt-browser", "bing". (Default: "chatgpt")
+        // (Optional) Possible options: "chatgpt", "chatgpt-browser", "bing", "minimax". (Default: "chatgpt")
         clientToUse: 'chatgpt',
         // (Optional) Generate titles for each conversation for clients that support it (only ChatGPTClient for now).
         // This will be returned as a `title` property in the first response of the conversation.
@@ -252,7 +272,7 @@ module.exports = {
         perMessageClientOptionsWhitelist: {
             // The ability to switch clients using `clientOptions.clientToUse` will be disabled if `validClientsToUse` is not set.
             // To allow switching clients per message, you must set `validClientsToUse` to a non-empty array.
-            validClientsToUse: ['bing', 'chatgpt', 'chatgpt-browser'], // values from possible `clientToUse` options above
+            validClientsToUse: ['bing', 'chatgpt', 'chatgpt-browser', 'minimax'], // values from possible `clientToUse` options above
             // The Object key, e.g. "chatgpt", is a value from `validClientsToUse`.
             // If not set, ALL options will be ALLOWED to be changed. For example, `bing` is not defined in `perMessageClientOptionsWhitelist` above,
             // so all options for `bingAiClient` will be allowed to be changed.
@@ -304,7 +324,7 @@ Optional parameters are only necessary for conversations that span multiple requ
 | clientId                  | (Optional, for `BingAIClient` only) The ID of the client. Required when continuing a conversation unless in jailbreak mode.                                                                                                                                     |
 | invocationId              | (Optional, for `BingAIClient` only) The ID of the invocation. Required when continuing a conversation unless in jailbreak mode.                                                                                                                                 |
 | clientOptions             | (Optional) An object containing options for the client.                                                                                                                                                                                                         |
-| clientOptions.clientToUse | (Optional) The client to use for this message. Possible values: `chatgpt`, `chatgpt-browser`, `bing`.                                                                                                                                                           |
+| clientOptions.clientToUse | (Optional) The client to use for this message. Possible values: `chatgpt`, `chatgpt-browser`, `bing`, `minimax`.                                                                                                                                                           |
 | clientOptions.*           | (Optional) Any valid options for the client. For example, for `ChatGPTClient`, you can set `clientOptions.openaiApiKey` to set an API key for this message only, or `clientOptions.promptPrefix` to give the AI custom instructions for this message only, etc. |
 
 To configure which options can be changed per message (default: all), see the comments for `perMessageClientOptionsWhitelist` in `settings.example.js`.
