@@ -7,7 +7,7 @@ describe('MiniMaxClient', () => {
 
     beforeEach(() => {
         client = new MiniMaxClient('test-api-key', {
-            modelOptions: { model: 'MiniMax-M2.7' },
+            modelOptions: { model: 'MiniMax-M3' },
         });
     });
 
@@ -20,9 +20,9 @@ describe('MiniMaxClient', () => {
             assert.equal(client.apiKey, 'test-api-key');
         });
 
-        it('should use MiniMax-M2.7 as the default model', () => {
+        it('should use MiniMax-M3 as the default model', () => {
             const defaultClient = new MiniMaxClient('key');
-            assert.equal(defaultClient.modelOptions.model, 'MiniMax-M2.7');
+            assert.equal(defaultClient.modelOptions.model, 'MiniMax-M3');
         });
 
         it('should allow overriding the model', () => {
@@ -30,6 +30,13 @@ describe('MiniMaxClient', () => {
                 modelOptions: { model: 'MiniMax-M2.7-highspeed' },
             });
             assert.equal(customClient.modelOptions.model, 'MiniMax-M2.7-highspeed');
+        });
+
+        it('should allow selecting MiniMax-M2.7', () => {
+            const customClient = new MiniMaxClient('key', {
+                modelOptions: { model: 'MiniMax-M2.7' },
+            });
+            assert.equal(customClient.modelOptions.model, 'MiniMax-M2.7');
         });
     });
 
@@ -53,8 +60,8 @@ describe('MiniMaxClient', () => {
             assert.equal(client.isUnofficialChatGptModel, false);
         });
 
-        it('should set default maxContextTokens to 1M', () => {
-            assert.equal(client.maxContextTokens, 1000000);
+        it('should set default maxContextTokens to 512K', () => {
+            assert.equal(client.maxContextTokens, 512000);
         });
 
         it('should set default maxResponseTokens to 4096', () => {

@@ -63,16 +63,16 @@ export default {
         // (Optional) Parameters as described in https://platform.minimaxi.com/document/ChatCompletion%20v2
         modelOptions: {
             // You can override the model name and any other parameters here.
-            // Available models: 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed', 'MiniMax-M2.5', 'MiniMax-M2.5-highspeed'
-            // The default model is `MiniMax-M2.7`.
-            model: 'MiniMax-M2.7',
+            // Available models: 'MiniMax-M3', 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed'
+            // The default model is `MiniMax-M3`.
+            model: 'MiniMax-M3',
             // MiniMax supports temperature in the range [0, 1].
             // temperature: 0.8,
             // Set max_tokens here to override the default max_tokens of 4096 for the completion.
             // max_tokens: 4096,
         },
-        // (Optional) MiniMax-M2.7 supports up to 1M context tokens.
-        // maxContextTokens: 1000000,
+        // (Optional) MiniMax-M3 supports up to 512K context tokens (max output 128K).
+        // maxContextTokens: 512000,
         // (Optional) Set custom instructions instead of the default.
         // promptPrefix: 'You are a helpful AI assistant powered by MiniMax...',
         // (Optional) Set a custom name for the AI

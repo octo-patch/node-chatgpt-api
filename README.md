@@ -120,8 +120,8 @@ Discord user @pig#8932 has found a working `text-chat-davinci-002` model, `text-
     - In essence, this allows you to make a chatbot with any personality you want.
     - This is currently only configurable on a global level, but I plan to add support for per-conversation customization.
   - Retains support for models like `text-davinci-003`
-- `MiniMaxClient`: support for [MiniMax](https://www.minimaxi.com/)'s models (`MiniMax-M2.7`, `MiniMax-M2.7-highspeed`, etc.) via MiniMax's OpenAI-compatible API.
-  - Extends `ChatGPTClient` with MiniMax-specific defaults (API endpoint, temperature clamping, 1M context window).
+- `MiniMaxClient`: support for [MiniMax](https://www.minimaxi.com/)'s models (`MiniMax-M3`, `MiniMax-M2.7`, `MiniMax-M2.7-highspeed`) via MiniMax's OpenAI-compatible API.
+  - Extends `ChatGPTClient` with MiniMax-specific defaults (API endpoint, temperature clamping, 512K context window with up to 128K output, image input support).
   - Supports the same conversation management, streaming, and prompt customization features as `ChatGPTClient`.
 - `BingAIClient`: support for Bing's version of ChatGPT, powered by GPT-4.
   - Includes a built-in jailbreak you can activate which enables unlimited chat messages per conversation, unlimited messages per day, and brings Sydney back. 😊
@@ -237,8 +237,8 @@ module.exports = {
         // Your MiniMax API key (for `MiniMaxClient`)
         minimaxApiKey: process.env.MINIMAX_API_KEY || '',
         modelOptions: {
-            // Available models: 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed', 'MiniMax-M2.5', 'MiniMax-M2.5-highspeed'
-            model: 'MiniMax-M2.7',
+            // Available models: 'MiniMax-M3', 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed'
+            model: 'MiniMax-M3',
         },
         proxy: '',
         debug: false,

@@ -6,15 +6,15 @@ import { MiniMaxClient } from '../index.js';
 const clientOptions = {
     // (Optional) Parameters for MiniMax's OpenAI-compatible API
     modelOptions: {
-        // Available models: 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed', 'MiniMax-M2.5', 'MiniMax-M2.5-highspeed'
-        model: 'MiniMax-M2.7',
+        // Available models: 'MiniMax-M3', 'MiniMax-M2.7', 'MiniMax-M2.7-highspeed'
+        model: 'MiniMax-M3',
         // MiniMax supports temperature in the range [0, 1].
         temperature: 0,
         // Set max_tokens here to override the default max_tokens of 4096 for the completion.
         // max_tokens: 4096,
     },
-    // (Optional) MiniMax-M2.7 supports up to 1M context tokens.
-    // maxContextTokens: 1000000,
+    // (Optional) MiniMax-M3 supports up to 512K context tokens (max output 128K).
+    // maxContextTokens: 512000,
     // (Optional) Set custom instructions.
     // promptPrefix: 'You are a helpful AI assistant powered by MiniMax...',
     // (Optional) Set a custom name for the AI

@@ -10,7 +10,7 @@ describe('MiniMaxClient Integration Tests', { skip: !MINIMAX_API_KEY ? 'MINIMAX_
     before(() => {
         client = new MiniMaxClient(MINIMAX_API_KEY, {
             modelOptions: {
-                model: 'MiniMax-M2.7',
+                model: 'MiniMax-M3',
                 temperature: 0,
                 max_tokens: 256,
             },

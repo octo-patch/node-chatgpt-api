@@ -1,6 +1,6 @@
 import ChatGPTClient from './ChatGPTClient.js';
 
-const MINIMAX_DEFAULT_MODEL = 'MiniMax-M2.7';
+const MINIMAX_DEFAULT_MODEL = 'MiniMax-M3';
 
 export default class MiniMaxClient extends ChatGPTClient {
     constructor(
@@ -56,7 +56,7 @@ export default class MiniMaxClient extends ChatGPTClient {
         this.isChatGptModel = true;
         this.isUnofficialChatGptModel = false;
 
-        this.maxContextTokens = this.options.maxContextTokens || 1000000;
+        this.maxContextTokens = this.options.maxContextTokens || 512000;
         this.maxResponseTokens = this.modelOptions.max_tokens || 4096;
         this.maxPromptTokens = this.options.maxPromptTokens || (this.maxContextTokens - this.maxResponseTokens);
 
