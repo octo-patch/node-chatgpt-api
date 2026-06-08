@@ -78,6 +78,7 @@ server.post('/conversation', async (request, reply) => {
 
     let result;
     let error;
+    let clientToUseForMessage = clientToUse;
     try {
         if (!body.message) {
             const invalidError = new Error();
@@ -89,7 +90,6 @@ server.post('/conversation', async (request, reply) => {
             throw invalidError;
         }
 
-        let clientToUseForMessage = clientToUse;
         const clientOptions = filterClientOptions(body.clientOptions, clientToUseForMessage);
         if (clientOptions && clientOptions.clientToUse) {
             clientToUseForMessage = clientOptions.clientToUse;
@@ -141,8 +141,10 @@ server.post('/conversation', async (request, reply) => {
     } else if (settings.apiOptions?.debug) {
         console.debug(error);
     }
-    const clientLabels = { bing: 'Bing', minimax: 'MiniMax', chatgpt: 'ChatGPT', 'chatgpt-browser': 'ChatGPT' };
-        const message = error?.data?.message || error?.message || `There was an error communicating with ${clientLabels[clientToUseForMessage] || 'the AI'}.`;
+    const clientLabels = {
+        bing: 'Bing', minimax: 'MiniMax', chatgpt: 'ChatGPT', 'chatgpt-browser': 'ChatGPT',
+    };
+    const message = error?.data?.message || error?.message || `There was an error communicating with ${clientLabels[clientToUseForMessage] || 'the AI'}.`;
     if (body.stream === true) {
         reply.sse({
             id: '',

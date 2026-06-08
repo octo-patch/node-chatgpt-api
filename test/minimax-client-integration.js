@@ -2,7 +2,7 @@ import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
 import MiniMaxClient from '../src/MiniMaxClient.js';
 
-const MINIMAX_API_KEY = process.env.MINIMAX_API_KEY;
+const { MINIMAX_API_KEY } = process.env;
 
 describe('MiniMaxClient Integration Tests', { skip: !MINIMAX_API_KEY ? 'MINIMAX_API_KEY not set' : false }, () => {
     let client;

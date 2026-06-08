@@ -157,7 +157,9 @@ describe('MiniMaxClient', () => {
     describe('buildPrompt', () => {
         it('should build chat messages array with proper roles', async () => {
             const messages = [
-                { id: '1', parentMessageId: '0', role: 'User', message: 'Hello' },
+                {
+                    id: '1', parentMessageId: '0', role: 'User', message: 'Hello',
+                },
             ];
             const result = await client.buildPrompt(messages, '1');
             assert.ok(Array.isArray(result.prompt));
@@ -169,9 +171,15 @@ describe('MiniMaxClient', () => {
 
         it('should build multi-turn conversation with user/assistant roles', async () => {
             const messages = [
-                { id: '1', parentMessageId: '0', role: 'User', message: 'Hi' },
-                { id: '2', parentMessageId: '1', role: 'ChatGPT', message: 'Hello!' },
-                { id: '3', parentMessageId: '2', role: 'User', message: 'How are you?' },
+                {
+                    id: '1', parentMessageId: '0', role: 'User', message: 'Hi',
+                },
+                {
+                    id: '2', parentMessageId: '1', role: 'ChatGPT', message: 'Hello!',
+                },
+                {
+                    id: '3', parentMessageId: '2', role: 'User', message: 'How are you?',
+                },
             ];
             const result = await client.buildPrompt(messages, '3');
             assert.ok(Array.isArray(result.prompt));
@@ -184,7 +192,9 @@ describe('MiniMaxClient', () => {
 
         it('should use custom promptPrefix', async () => {
             const messages = [
-                { id: '1', parentMessageId: '0', role: 'User', message: 'Hello' },
+                {
+                    id: '1', parentMessageId: '0', role: 'User', message: 'Hello',
+                },
             ];
             const result = await client.buildPrompt(messages, '1', { promptPrefix: 'You are a pirate.' });
             assert.equal(result.prompt[0].content, 'You are a pirate.');
